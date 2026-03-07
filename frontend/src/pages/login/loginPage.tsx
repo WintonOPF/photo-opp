@@ -29,30 +29,40 @@ export function LoginPage() {
   }
 
   return (
-    <div className="login-container">
+    <div className="login-page">
       <div className="login-card">
-        <div className="logo">NEX.lab</div>
+        <div className="login-logo-wrapper">
+          <div className="login-logo-box">NEX</div>
+          <span className="login-logo-text">.lab</span>
+        </div>
 
-        <h1>Login</h1>
+        <h1 className="login-title">Login</h1>
 
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Email"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
+        <form className="login-form">
+          <div className="input-group">
+            <input type="email" placeholder="Email" />
+            <span className="input-icon">✉</span>
+          </div>
 
-          <input
-            type="password"
-            placeholder="Senha"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
+          <div className="input-group">
+            <input type="password" placeholder="Senha" />
+            <span className="input-icon">🔒</span>
+          </div>
 
-          {errorMessage && <p className="error">{errorMessage}</p>}
+          <div className="login-options">
+            {/* <label className="remember-me">
+              <input type="checkbox" />
+              <span>Lembrar</span>
+            </label>
 
-          <button type="submit">Entrar</button>
+            <button type="button" className="forgot-password">
+              Esqueci minha senha
+            </button> */}
+          </div>
+
+          <button type="submit" className="login-button">
+            Entrar
+          </button>
         </form>
       </div>
     </div>
