@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, type SyntheticEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import "./login.css";
@@ -11,8 +11,9 @@ export function LoginPage() {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
 
-  async function handleSubmit(event: React.FormEvent) {
+  async function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
+    setErrorMessage("");
 
     try {
       const user = await login(username, password);
@@ -38,27 +39,32 @@ export function LoginPage() {
 
         <h1 className="login-title">Login</h1>
 
-        <form className="login-form">
+        <form className="login-form" onSubmit={handleSubmit}>
           <div className="input-group">
-            <input type="email" placeholder="Email" />
+            <input
+              type="text"
+              placeholder="Usuario"
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+            />
             <span className="input-icon">✉</span>
           </div>
 
           <div className="input-group">
-            <input type="password" placeholder="Senha" />
+            <input
+              type="password"
+              placeholder="Senha"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+            />
             <span className="input-icon">🔒</span>
           </div>
 
-          <div className="login-options">
-            {/* <label className="remember-me">
-              <input type="checkbox" />
-              <span>Lembrar</span>
-            </label>
+          {errorMessage && (
+            <p className="login-error-message">{errorMessage}</p>
+          )}
 
-            <button type="button" className="forgot-password">
-              Esqueci minha senha
-            </button> */}
-          </div>
+          <div className="login-options"></div>
 
           <button type="submit" className="login-button">
             Entrar

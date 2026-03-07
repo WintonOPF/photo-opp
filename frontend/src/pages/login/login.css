@@ -8,6 +8,13 @@ body {
   background: #1f1f1f;
 }
 
+.login-error-message {
+  margin: 0;
+  color: #b91c1c;
+  font-size: 14px;
+  text-align: center;
+}
+
 .login-page {
   min-height: 100vh;
   background: #1f1f1f;
