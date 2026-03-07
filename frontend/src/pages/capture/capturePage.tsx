@@ -1,8 +1,13 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./capture.css";
+import { usePhotoFlow } from "../../hooks/usePhotoFlow";
 
 export function CapturePage() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
+  const navigate = useNavigate();
+  const { setCapturedPhoto } = usePhotoFlow();
+
   const [streamReady, setStreamReady] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(null);
 
@@ -13,9 +18,9 @@ export function CapturePage() {
       try {
         stream = await navigator.mediaDevices.getUserMedia({
           video: {
-            facingMode: "user"
+            facingMode: "user",
           },
-          audio: false
+          audio: false,
         });
 
         if (videoRef.current) {
@@ -39,14 +44,14 @@ export function CapturePage() {
   }, []);
 
   useEffect(() => {
-    if (!streamReady) return;
+    if (!streamReady || countdown !== null) return;
 
     const timer = setTimeout(() => {
       setCountdown(3);
     }, 1000);
 
     return () => clearTimeout(timer);
-  }, [streamReady]);
+  }, [streamReady, countdown]);
 
   useEffect(() => {
     if (countdown === null) return;
@@ -66,10 +71,43 @@ export function CapturePage() {
     if (countdown !== 1) return;
 
     const timer = setTimeout(() => {
+      capturePhoto();
     }, 1000);
 
     return () => clearTimeout(timer);
   }, [countdown]);
+
+  function capturePhoto() {
+    const video = videoRef.current;
+
+    if (!video) {
+      return;
+    }
+
+    const width = video.videoWidth;
+    const height = video.videoHeight;
+
+    if (!width || !height) {
+      return;
+    }
+
+    const canvas = document.createElement("canvas");
+    canvas.width = width;
+    canvas.height = height;
+
+    const context = canvas.getContext("2d");
+
+    if (!context) {
+      return;
+    }
+
+    context.drawImage(video, 0, 0, width, height);
+
+    const photoDataUrl = canvas.toDataURL("image/png");
+
+    setCapturedPhoto(photoDataUrl);
+    navigate("/review");
+  }
 
   return (
     <div className="capture-container">
