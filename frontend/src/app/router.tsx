@@ -5,6 +5,7 @@ import { AdminPage } from '../pages/admin/adminPage';
 import { LoginPage } from '../pages/login/loginPage';
 import { StartPage } from '../pages/start/startPage';
 import { UnauthorizedPage } from '../pages/unauthorized/unauthorizedPage';
+import { CapturePage } from '../pages/capture/capturePage';
 
 export function AppRouter() {
   return (
@@ -27,6 +28,14 @@ export function AppRouter() {
             element={
               <ProtectedRoute allowedRoles={['ADMIN']}>
                 <AdminPage />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/capture"
+            element={
+              <ProtectedRoute allowedRoles={["PROMOTOR"]}>
+                <CapturePage />
               </ProtectedRoute>
             }
           />

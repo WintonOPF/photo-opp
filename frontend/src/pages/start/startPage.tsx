@@ -1,20 +1,22 @@
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../../hooks/useAuth';
+import { useNavigate } from "react-router-dom";
+import "./start.css";
 
 export function StartPage() {
   const navigate = useNavigate();
-  const { user, logout } = useAuth();
 
-  function handleLogout() {
-    logout();
-    navigate('/login');
+  function handleStart() {
+    navigate("/capture");
   }
 
   return (
-    <div>
-      <h1>Fluxo da ativação</h1>
-      <p>Olá, {user?.name}</p>
-      <button onClick={handleLogout}>Sair</button>
+    <div className="start-container">
+      <div className="start-card">
+        <div className="logo">NEX.lab</div>
+
+        <h1>Photo Opp</h1>
+
+        <button onClick={handleStart}>Iniciar</button>
+      </div>
     </div>
   );
 }
