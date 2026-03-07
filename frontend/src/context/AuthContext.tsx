@@ -1,10 +1,11 @@
 import { createContext, useEffect, useMemo, useState } from 'react';
-import type { AuthUser } from '../types/auth';
 import { loginRequest } from '../services/authService';
+import type { AuthUser } from '../types/auth';
 
 export interface AuthContextType {
   user: AuthUser | null;
   isAuthenticated: boolean;
+  isAuthLoading: boolean;
   login: (username: string, password: string) => Promise<AuthUser>;
   logout: () => void;
 }
@@ -15,6 +16,7 @@ const STORAGE_KEY = 'photo_opp_user';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
 
   useEffect(() => {
     const storedUser = localStorage.getItem(STORAGE_KEY);
@@ -22,6 +24,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (storedUser) {
       setUser(JSON.parse(storedUser));
     }
+
+    setIsAuthLoading(false);
   }, []);
 
   async function login(username: string, password: string): Promise<AuthUser> {
@@ -40,10 +44,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     () => ({
       user,
       isAuthenticated: !!user,
+      isAuthLoading,
       login,
       logout
     }),
-    [user]
+    [user, isAuthLoading]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -1,3 +1,5 @@
+import { AppRouter } from "./app/router";
+
 export default function App() {
-  return <h1>Photo Opp</h1>;
+  return <AppRouter />;
 }
