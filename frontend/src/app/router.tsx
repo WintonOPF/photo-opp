@@ -3,6 +3,8 @@ import { AuthProvider } from '../context/AuthContext';
 import { ProtectedRoute } from '../components/ProtectedRoute';
 import { AdminPage } from '../pages/AdminPage';
 import { LoginPage } from '../pages/login/loginPage';
+import { ForgotPasswordPage } from "../pages/forgotPassword/forgotPasswordPage";
+import { ResetPasswordPage } from "../pages/resetPassword/resetPasswordPage";
 import { StartPage } from '../pages/start/startPage';
 import { UnauthorizedPage } from '../pages/unauthorized/unauthorizedPage';
 import { CapturePage } from '../pages/capture/capturePage';
@@ -18,11 +20,13 @@ export function AppRouter() {
           <Routes>
             <Route path="/" element={<Navigate to="/login" replace />} />
             <Route path="/login" element={<LoginPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
             <Route path="/unauthorized" element={<UnauthorizedPage />} />
             <Route
               path="/start"
               element={
-                <ProtectedRoute allowedRoles={['PROMOTOR']}>
+                <ProtectedRoute allowedRoles={["PROMOTER"]}>
                   <StartPage />
                 </ProtectedRoute>
               }
@@ -38,7 +42,7 @@ export function AppRouter() {
             <Route
               path="/capture"
               element={
-                <ProtectedRoute allowedRoles={["PROMOTOR"]}>
+                <ProtectedRoute allowedRoles={["PROMOTER"]}>
                   <CapturePage />
                 </ProtectedRoute>
               }
@@ -46,7 +50,7 @@ export function AppRouter() {
             <Route
               path="/review"
               element={
-                <ProtectedRoute allowedRoles={['PROMOTOR']}>
+                <ProtectedRoute allowedRoles={["PROMOTER"]}>
                   <ReviewPage />
                 </ProtectedRoute>
               }
@@ -54,7 +58,7 @@ export function AppRouter() {
             <Route
               path="/qrcode"
               element={
-                <ProtectedRoute allowedRoles={['PROMOTOR']}>
+                <ProtectedRoute allowedRoles={["PROMOTER"]}>
                   <QRCodePage />
                 </ProtectedRoute>
               }
