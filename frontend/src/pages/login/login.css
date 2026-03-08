@@ -40,6 +40,8 @@ body {
   padding: 8% 6% 6%;
   position: relative;
   overflow: visible;
+  display: flex;
+  flex-direction: column;
 }
 
 .login-logo-wrapper {
@@ -70,6 +72,7 @@ body {
   flex-direction: column;
   gap: 2.7%;
   height: 62%;
+  padding-bottom: 14vh;
 }
 
 .input-group {
@@ -134,7 +137,7 @@ body {
 }
 
 .login-button {
-  width: 100%;
+  width: auto;
   height: 10vh;
   border: 0;
   background: #8f8f8f;
@@ -143,6 +146,10 @@ body {
   font-weight: 700;
   cursor: pointer;
   transition: filter 0.2s ease;
+  position: absolute;
+  left: 6%;
+  right: 6%;
+  bottom: 6%;
 }
 
 .login-button:hover {

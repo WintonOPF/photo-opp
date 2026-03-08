@@ -155,14 +155,17 @@ export function QRCodePage() {
                 />
               )}
 
-              <div className="qr-mini-code-card">
-                <span className="qr-mini-title">Baixar foto</span>
-                <div className="qr-mini-code">
-                  {isLoading && <span>Gerando...</span>}
-                  {!isLoading && error && <span>Erro</span>}
-                  {!isLoading && !error && downloadUrl && (
-                    <QRCodeCanvas value={downloadUrl} size={84} />
-                  )}
+              <div className="qr-mini-modal">
+                <div className="qr-mini-code-card">
+                  <span className="qr-mini-title">Fazer download</span>
+                  <div className="qr-mini-code">
+                    {isLoading && <span>Gerando...</span>}
+                    {!isLoading && error && <span>(QR CODE)</span>}
+                    {!isLoading && !error && downloadUrl && (
+                      <QRCodeCanvas value={downloadUrl} size={120} />
+                    )}
+                    {!isLoading && !error && !downloadUrl && <span>(QR CODE)</span>}
+                  </div>
                 </div>
               </div>
             </div>
@@ -186,14 +189,16 @@ export function QRCodePage() {
                 />
               )}
 
-              <div className="qr-mini-code-card">
-                <span className="qr-mini-title">Baixar foto</span>
-                <div className="qr-mini-code">
-                  {!error && downloadUrl ? (
-                    <QRCodeCanvas value={downloadUrl} size={84} />
-                  ) : (
-                    <span>QR</span>
-                  )}
+              <div className="qr-mini-modal">
+                <div className="qr-mini-code-card">
+                  <span className="qr-mini-title">Fazer download</span>
+                  <div className="qr-mini-code">
+                    {!error && downloadUrl ? (
+                      <QRCodeCanvas value={downloadUrl} size={120} />
+                    ) : (
+                      <span>(QR CODE)</span>
+                    )}
+                  </div>
                 </div>
               </div>
             </div>
