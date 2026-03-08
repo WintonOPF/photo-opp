@@ -38,15 +38,27 @@
   margin: 0;
 }
 
-.start-card button {
+.start-action-btn,
+.start-logout-btn {
   padding: 2.3vh;
   background: #777;
   color: white;
   border: none;
   font-size: clamp(20px, 2.6vh, 34px);
   cursor: pointer;
+}
+
+.start-action-btn {
   position: absolute;
   left: 8%;
   right: 8%;
   bottom: 8%;
+}
+
+.start-logout-btn {
+  position: absolute;
+  top: 8%;
+  right: 8%;
+  left: auto;
+  width: auto;
 }
