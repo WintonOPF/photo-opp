@@ -6,7 +6,7 @@ import { usePhotoFlow } from "../../hooks/usePhotoFlow";
 export function CapturePage() {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const navigate = useNavigate();
-  const { setCapturedPhoto } = usePhotoFlow();
+  const { setCapturedPhoto, setFramedPhoto } = usePhotoFlow();
 
   const [streamReady, setStreamReady] = useState(false);
   const [countdown, setCountdown] = useState<number | null>(null);
@@ -105,6 +105,7 @@ export function CapturePage() {
 
     const photoDataUrl = canvas.toDataURL("image/png");
 
+    setFramedPhoto(null);
     setCapturedPhoto(photoDataUrl);
     navigate("/review");
   }

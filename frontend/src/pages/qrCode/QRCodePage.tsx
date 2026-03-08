@@ -1,9 +1,18 @@
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { QRCodeCanvas } from "qrcode.react";
+import frameSrc from "../../assets/frame.svg";
 import "./qrcode.css";
 import { usePhotoFlow } from "../../hooks/usePhotoFlow";
+import { composePhotoWithFrame } from "../../utils/composePhotoWithFrame";
 import { uploadPhoto } from "../../services/photoService";
+
+const FRAME_PHOTO_SLOT = {
+  x: 0,
+  y: 216.335,
+  width: 887,
+  height: 1262.555
+};
 
 type QRCodeStep =
   | "preview-with-small-qr"
@@ -12,29 +21,72 @@ type QRCodeStep =
 
 export function QRCodePage() {
   const navigate = useNavigate();
-  const { capturedPhoto, resetPhotoFlow } = usePhotoFlow();
+  const { capturedPhoto, framedPhoto, setFramedPhoto, resetPhotoFlow } =
+    usePhotoFlow();
 
   const [downloadUrl, setDownloadUrl] = useState<string | null>(null);
+  const [isComposing, setIsComposing] = useState(false);
+  const [composeError, setComposeError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [step, setStep] = useState<QRCodeStep>("preview-with-small-qr");
 
   useEffect(() => {
     let active = true;
-    const photoData = capturedPhoto;
+
+    async function generateFramedPhoto() {
+      if (!capturedPhoto || framedPhoto) {
+        return;
+      }
+
+      try {
+        setIsComposing(true);
+        setComposeError(null);
+
+        const composed = await composePhotoWithFrame(
+          capturedPhoto,
+          frameSrc,
+          FRAME_PHOTO_SLOT
+        );
+
+        if (active) {
+          setFramedPhoto(composed);
+        }
+      } catch {
+        if (active) {
+          setComposeError("Nao foi possivel aplicar a moldura.");
+        }
+      } finally {
+        if (active) {
+          setIsComposing(false);
+        }
+      }
+    }
+
+    generateFramedPhoto();
+
+    return () => {
+      active = false;
+    };
+  }, [capturedPhoto, framedPhoto, setFramedPhoto]);
+
+  useEffect(() => {
+    let active = true;
+    const photoData = framedPhoto;
 
     if (!photoData) {
       return () => {
         active = false;
       };
     }
+    const safePhotoData: string = photoData;
 
     async function uploadCurrentPhoto() {
       try {
         setIsLoading(true);
         setError(null);
 
-        const response = await uploadPhoto(photoData!);
+        const response = await uploadPhoto(safePhotoData);
 
         if (active) {
           setDownloadUrl(response.downloadUrl);
@@ -55,7 +107,7 @@ export function QRCodePage() {
     return () => {
       active = false;
     };
-  }, [capturedPhoto]);
+  }, [framedPhoto]);
 
   useEffect(() => {
     if (step !== "thank-you-overlay") {
@@ -90,32 +142,28 @@ export function QRCodePage() {
       <div className="qr-frame">
         {step === "preview-with-small-qr" && (
           <>
-            <div className="qr-review-header">
-              <span className="qr-logo">NEX.lab</span>
-              <span className="qr-header-text">we make tech simple...</span>
-            </div>
-
             <div className="qr-review-photo-area">
-              <img
-                src={capturedPhoto}
-                alt="Foto capturada"
-                className="qr-review-photo"
-              />
+              {isComposing && <p>Gerando moldura...</p>}
+              {!isComposing && composeError && <p>{composeError}</p>}
+              {!isComposing && !composeError && framedPhoto && (
+                <img
+                  src={framedPhoto}
+                  alt="Foto com moldura"
+                  className="qr-review-photo"
+                />
+              )}
 
-              <div className="qr-small-download-card">
-                <div className="qr-small-title">Fazer download</div>
-
-                <div className="qr-small-code">
+              <div className="qr-mini-code-card">
+                <span className="qr-mini-title">Baixar foto</span>
+                <div className="qr-mini-code">
                   {isLoading && <span>Gerando...</span>}
                   {!isLoading && error && <span>Erro</span>}
                   {!isLoading && !error && downloadUrl && (
-                    <QRCodeCanvas value={downloadUrl} size={58} />
+                    <QRCodeCanvas value={downloadUrl} size={84} />
                   )}
                 </div>
               </div>
             </div>
-
-            <div className="qr-review-footer">we make tech simple...</div>
 
             <div className="qr-actions">
               <button onClick={handleFinish} disabled={isLoading}>
@@ -127,32 +175,26 @@ export function QRCodePage() {
 
         {step === "thank-you-overlay" && (
           <>
-            <div className="qr-review-header">
-              <span className="qr-logo">NEX.lab</span>
-              <span className="qr-header-text">we make tech simple...</span>
-            </div>
-
             <div className="qr-review-photo-area dimmed">
-              <img
-                src={capturedPhoto}
-                alt="Foto capturada"
-                className="qr-review-photo"
-              />
+              {framedPhoto && (
+                <img
+                  src={framedPhoto}
+                  alt="Foto com moldura"
+                  className="qr-review-photo"
+                />
+              )}
 
-              <div className="qr-small-download-card">
-                <div className="qr-small-title">Fazer download</div>
-
-                <div className="qr-small-code">
+              <div className="qr-mini-code-card">
+                <span className="qr-mini-title">Baixar foto</span>
+                <div className="qr-mini-code">
                   {!error && downloadUrl ? (
-                    <QRCodeCanvas value={downloadUrl} size={58} />
+                    <QRCodeCanvas value={downloadUrl} size={84} />
                   ) : (
                     <span>QR</span>
                   )}
                 </div>
               </div>
             </div>
-
-            <div className="qr-review-footer">we make tech simple...</div>
 
             <div className="qr-actions">
               <button disabled>Finalizar</button>
