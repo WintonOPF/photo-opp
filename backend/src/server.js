@@ -2,6 +2,8 @@ import express from "express";
 import cors from "cors";
 import authRoutes from "./routes/authRoutes.js";
 import photoRoutes from "./routes/photoRoutes.js";
+import { env } from "./config/env.js";
+import { ensureDefaultAdminUser } from "./services/bootstrapService.js";
 
 const app = express();
 
@@ -15,8 +17,20 @@ app.get("/health", (req, res) => {
 app.use("/auth", authRoutes);
 app.use("/photos", photoRoutes);
 
-const PORT = 3001;
+app.use((error, _req, res, _next) => {
+  console.error(error);
+  return res.status(500).json({ message: "Erro interno do servidor" });
+});
 
-app.listen(PORT, () => {
-  console.log(`API running on port ${PORT}`);
+async function startServer() {
+  await ensureDefaultAdminUser();
+
+  app.listen(env.port, () => {
+    console.log(`API running on port ${env.port}`);
+  });
+}
+
+startServer().catch((error) => {
+  console.error("Failed to start API", error);
+  process.exit(1);
 });
