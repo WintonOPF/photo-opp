@@ -3,6 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { NexLogo } from "../../components/NexLogo";
 import { Button } from "../../components/button/button";
+import emailIcon from "../../assets/email-icon.svg";
+import lockIcon from "../../assets/lock-icon.svg";
 import "./login.css";
 
 export function LoginPage() {
@@ -27,7 +29,7 @@ export function LoginPage() {
 
       navigate("/start");
     } catch {
-      setErrorMessage("Usuário ou senha inválidos");
+      setErrorMessage("Usuario ou senha invalidos");
     }
   }
 
@@ -44,11 +46,13 @@ export function LoginPage() {
           <div className="input-group">
             <input
               type="text"
-              placeholder="Usuario"
+              placeholder="Email"
               value={username}
               onChange={(event) => setUsername(event.target.value)}
             />
-            <span className="input-icon">✉</span>
+            <span className="input-icon">
+              <img src={emailIcon} alt="" className="input-icon-image" />
+            </span>
           </div>
 
           <div className="input-group">
@@ -58,14 +62,22 @@ export function LoginPage() {
               value={password}
               onChange={(event) => setPassword(event.target.value)}
             />
-            <span className="input-icon">🔒</span>
+            <span className="input-icon">
+              <img src={lockIcon} alt="" className="input-icon-image" />
+            </span>
           </div>
 
-          {errorMessage && (
-            <p className="login-error-message">{errorMessage}</p>
-          )}
+          {errorMessage && <p className="login-error-message">{errorMessage}</p>}
 
-          <div className="login-options"></div>
+          <div className="login-options">
+            <label className="remember-me">
+              <input type="checkbox" />
+              Lembrar
+            </label>
+            <button type="button" className="forgot-password">
+              Esqueci minha senha
+            </button>
+          </div>
 
           <Button type="submit" className="login-button">
             Entrar

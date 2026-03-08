@@ -35,11 +35,10 @@ body {
   width: min(100vw, calc(100vh * 1080 / 1920));
   height: min(100vh, calc(100vw * 1920 / 1080));
   aspect-ratio: 1080 / 1920;
-  background: linear-gradient(162.44deg, #ffffff 49.04%, #999999 100%),
-    linear-gradient(162.44deg, #ffffff 0%, #999999 100%), #ffffff;
+  background: linear-gradient(160deg, #f1f1f1 10%, #d5d5d5 100%);
   padding: 8% 6% 6%;
   position: relative;
-  overflow: visible;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
 }
@@ -48,21 +47,21 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 2%;
-  margin-bottom: 11%;
+  margin-top: 14%;
+  margin-bottom: 16%;
 }
 
 .login-logo {
-  width: min(36%, 256px);
+  width: min(31%, 190px);
   height: auto;
   display: block;
 }
 
 .login-title {
   text-align: center;
-  font-size: clamp(54px, 7vh, 96px);
+  font-size: clamp(30px, 5.2vh, 66px);
   line-height: 1;
-  margin: 0 0 8%;
+  margin: 0 0 12%;
   color: #111;
   font-weight: 700;
 }
@@ -70,9 +69,9 @@ body {
 .login-form {
   display: flex;
   flex-direction: column;
-  gap: 2.7%;
+  gap: 2.2%;
   height: 62%;
-  padding-bottom: 14vh;
+  padding-bottom: 17vh;
 }
 
 .input-group {
@@ -81,18 +80,21 @@ body {
 
 .input-group input {
   width: 100%;
-  height: 7.4vh;
+  height: clamp(44px, 6.2vh, 78px);
   border: 0;
   outline: none;
-  padding: 0 44px 0 14px;
+  padding: 0 40px 0 12px;
   background: #222;
   color: #fff;
-  font-size: clamp(18px, 2.2vh, 30px);
+  font-size: clamp(12px, 1.75vh, 22px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.28);
 }
 
 .input-group input::placeholder {
-  color: #cfcfcf;
+  color: #f2f2f2;
+  font-size: clamp(11px, 1.35vh, 16px);
+  font-weight: 400;
+  letter-spacing: 0.2px;
 }
 
 .input-icon {
@@ -101,48 +103,56 @@ body {
   right: 14px;
   transform: translateY(-50%);
   color: #fff;
-  font-size: 16px;
+  font-size: clamp(14px, 1.7vh, 20px);
   pointer-events: none;
+  opacity: 0.9;
+  font-variation-settings: "FILL" 0, "wght" 300, "GRAD" 0, "opsz" 20;
+}
+
+.input-icon-image {
+  width: 16px;
+  height: 16px;
+  display: block;
 }
 
 .login-options {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 0;
-  margin-bottom: 8%;
+  margin-top: 2px;
+  margin-bottom: 0;
 }
 
 .remember-me {
   display: flex;
   align-items: center;
-  gap: 6px;
-  color: #8d8d8d;
-  font-size: 14px;
+  gap: 4px;
+  color: #6f6f6f;
+  font-size: clamp(10px, 1.3vh, 15px);
 }
 
 .remember-me input {
-  width: 14px;
-  height: 14px;
+  width: 11px;
+  height: 11px;
   margin: 0;
 }
 
 .forgot-password {
   border: 0;
   background: transparent;
-  color: #a3a3a3;
-  font-size: 14px;
+  color: #9d9d9d;
+  font-size: clamp(10px, 1.2vh, 14px);
   cursor: pointer;
   padding: 0;
 }
 
 .login-button {
   width: auto;
-  height: 10vh;
+  height: clamp(48px, 8.2vh, 92px);
   border: 0;
-  background: #8f8f8f;
+  background: #767676;
   color: #fff;
-  font-size: clamp(28px, 3.8vh, 50px);
+  font-size: clamp(20px, 3.2vh, 38px);
   font-weight: 700;
   cursor: pointer;
   transition: filter 0.2s ease;
@@ -195,11 +205,11 @@ body {
   }
 
   .login-title {
-    font-size: clamp(44px, 6vh, 72px);
+    font-size: clamp(28px, 5vh, 52px);
   }
 
   .login-button {
-    height: 9vh;
-    font-size: clamp(24px, 3.4vh, 42px);
+    height: clamp(46px, 7.6vh, 82px);
+    font-size: clamp(19px, 3vh, 34px);
   }
 }
