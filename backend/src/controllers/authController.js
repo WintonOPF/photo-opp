@@ -1,38 +1,53 @@
-const users = [
-  {
-    id: '1',
-    name: 'Promotor Nex',
-    username: 'promotor',
-    password: '123',
-    role: 'PROMOTOR'
-  },
-  {
-    id: '2',
-    name: 'Administrador Nex',
-    username: 'admin',
-    password: '123',
-    role: 'ADMIN'
-  }
-];
+import {
+  buildMeResponse,
+  forgotPassword,
+  loginOrAutoRegister,
+  resetPassword,
+} from "../services/authService.js";
 
-export function login(req, res) {
-  const { username, password } = req.body;
+export async function login(req, res) {
+  const { email, password } = req.body ?? {};
 
-  const user = users.find(
-    (item) => item.username === username && item.password === password
-  );
-
-  if (!user) {
-    return res.status(401).json({
-      message: 'Usuário ou senha inválidos'
-    });
+  if (!email || !password) {
+    return res.status(400).json({ message: "Email e senha sao obrigatorios" });
   }
 
-  return res.json({
-    id: user.id,
-    name: user.name,
-    username: user.username,
-    role: user.role,
-    token: `fake-token-${user.role.toLowerCase()}`
-  });
+  try {
+    const result = await loginOrAutoRegister({ email, password });
+    return res.json(result);
+  } catch (error) {
+    const statusCode = error.statusCode ?? 500;
+    return res.status(statusCode).json({ message: error.message });
+  }
+}
+
+export async function forgotPasswordHandler(req, res) {
+  const { email } = req.body ?? {};
+
+  if (!email) {
+    return res.status(400).json({ message: "Email e obrigatorio" });
+  }
+
+  const result = await forgotPassword(email);
+  return res.json(result);
+}
+
+export async function resetPasswordHandler(req, res) {
+  const { token, newPassword } = req.body ?? {};
+
+  if (!token || !newPassword) {
+    return res.status(400).json({ message: "Token e nova senha sao obrigatorios" });
+  }
+
+  try {
+    const result = await resetPassword({ token, newPassword });
+    return res.json(result);
+  } catch (error) {
+    const statusCode = error.statusCode ?? 500;
+    return res.status(statusCode).json({ message: error.message });
+  }
+}
+
+export function me(req, res) {
+  return res.json(buildMeResponse(req.user));
 }
