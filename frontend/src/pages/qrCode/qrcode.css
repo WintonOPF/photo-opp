@@ -1,0 +1,34 @@
+.qr-container {
+  min-height: 100vh;
+  background: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.qr-frame {
+  width: 360px;
+  height: 640px;
+  background: linear-gradient(#eee, #ddd);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.qr-logo {
+  margin-bottom: 20px;
+}
+
+.qr-code {
+  margin: 20px 0;
+}
+
+.qr-frame button {
+  width: 80%;
+  padding: 16px;
+  background: #555;
+  color: white;
+  border: none;
+  font-size: 16px;
+}

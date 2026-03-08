@@ -7,6 +7,7 @@ import { StartPage } from '../pages/start/startPage';
 import { UnauthorizedPage } from '../pages/unauthorized/unauthorizedPage';
 import { CapturePage } from '../pages/capture/capturePage';
 import { ReviewPage } from '../pages/review/reviewPage';
+import { QRCodePage } from '../pages/qrCode/QRCodePage';
 import { PhotoFlowProvider } from '../context/PhotoFlowContext';
 
 export function AppRouter() {
@@ -47,6 +48,14 @@ export function AppRouter() {
               element={
                 <ProtectedRoute allowedRoles={['PROMOTOR']}>
                   <ReviewPage />
+                </ProtectedRoute>
+              }
+            />
+            <Route
+              path="/qrcode"
+              element={
+                <ProtectedRoute allowedRoles={['PROMOTOR']}>
+                  <QRCodePage />
                 </ProtectedRoute>
               }
             />
