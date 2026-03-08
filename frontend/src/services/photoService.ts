@@ -1,9 +1,5 @@
-import axios from "axios";
+import { api } from "./api";
 import type { PhotoItem } from "../types/photo";
-
-const api = axios.create({
-  baseURL: import.meta.env.VITE_API_URL || "http://localhost:3001",
-});
 
 interface UploadPhotoResponse {
   id: string;
@@ -24,4 +20,8 @@ export async function uploadPhoto(dataUrl: string): Promise<UploadPhotoResponse>
 export async function listPhotos(): Promise<ListPhotosResponse> {
   const response = await api.get<ListPhotosResponse>("/photos");
   return response.data;
+}
+
+export async function deletePhoto(id: string): Promise<void> {
+  await api.delete(`/photos/${id}`);
 }

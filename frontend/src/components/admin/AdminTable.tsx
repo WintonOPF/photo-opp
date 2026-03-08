@@ -8,6 +8,7 @@ interface AdminTableProps {
   onPreviousPage: () => void;
   onNextPage: () => void;
   onPreviewPhoto: (photo: PhotoItem) => void;
+  onDeletePhoto: (photo: PhotoItem) => void;
 }
 
 export const AdminTable = memo(function AdminTable({
@@ -17,6 +18,7 @@ export const AdminTable = memo(function AdminTable({
   onPreviousPage,
   onNextPage,
   onPreviewPhoto,
+  onDeletePhoto,
 }: AdminTableProps) {
   return (
     <>
@@ -27,7 +29,8 @@ export const AdminTable = memo(function AdminTable({
               <th>ID</th>
               <th>Date</th>
               <th>Download</th>
-              <th>Preview</th>
+              <th>Visualização</th>
+              <th>Excluir</th>
             </tr>
           </thead>
 
@@ -50,7 +53,17 @@ export const AdminTable = memo(function AdminTable({
                     type="button"
                     onClick={() => onPreviewPhoto(photo)}
                   >
-                    Preview
+                    Visualizar
+                  </button>
+                </td>
+
+                <td>
+                  <button
+                    className="admin-qr-btn"
+                    type="button"
+                    onClick={() => onDeletePhoto(photo)}
+                  >
+                    Excluir
                   </button>
                 </td>
               </tr>
@@ -65,11 +78,11 @@ export const AdminTable = memo(function AdminTable({
           onClick={onPreviousPage}
           disabled={currentPage === 1}
         >
-          Previous
+          Anterior
         </button>
 
         <span>
-          Page {currentPage} of {totalPages}
+          Pagina {currentPage} de {totalPages}
         </span>
 
         <button
@@ -77,7 +90,7 @@ export const AdminTable = memo(function AdminTable({
           onClick={onNextPage}
           disabled={currentPage === totalPages}
         >
-          Next
+          Proximo
         </button>
       </div>
     </>

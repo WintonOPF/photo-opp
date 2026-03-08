@@ -5,7 +5,7 @@ import { AdminQrCode } from "../components/admin/AdminQrCode";
 import { AdminStats } from "../components/admin/AdminStats";
 import { AdminTable } from "../components/admin/AdminTable";
 import { useAuth } from "../hooks/useAuth";
-import { listPhotos } from "../services/photoService";
+import { deletePhoto, listPhotos } from "../services/photoService";
 import type { PhotoItem } from "../types/photo";
 import "./admin/admin.css";
 
@@ -121,6 +121,21 @@ export function AdminPage() {
     setSelectedPhoto(null);
   }, []);
 
+  const handleDeletePhoto = useCallback(async (photo: PhotoItem) => {
+    const confirmed = window.confirm("Deseja excluir esta foto?");
+    if (!confirmed) {
+      return;
+    }
+
+    try {
+      await deletePhoto(photo.id);
+      setPhotos((previous) => previous.filter((item) => item.id !== photo.id));
+      setSelectedPhoto((previous) => (previous?.id === photo.id ? null : previous));
+    } catch {
+      setError("Nao foi possivel excluir a foto.");
+    }
+  }, []);
+
   return (
     <div className="admin-page">
       <header className="admin-header">
@@ -165,6 +180,7 @@ export function AdminPage() {
             onPreviousPage={handlePreviousPage}
             onNextPage={handleNextPage}
             onPreviewPhoto={handlePreviewPhoto}
+            onDeletePhoto={handleDeletePhoto}
           />
         )}
       </section>
