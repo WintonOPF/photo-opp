@@ -1,10 +1,18 @@
 import express from "express";
-import { downloadPhoto, uploadPhoto, listPhotos } from "../controllers/photoController.js";
+import {
+  deletePhoto,
+  downloadPhoto,
+  uploadPhoto,
+  listPhotos,
+} from "../controllers/photoController.js";
+import { authMiddleware } from "../middlewares/authMiddleware.js";
+import { roleMiddleware } from "../middlewares/roleMiddleware.js";
 
 const router = express.Router();
 
-router.post("/", uploadPhoto);
-router.get("/", listPhotos);
+router.post("/", authMiddleware, roleMiddleware(["ADMIN", "PROMOTER"]), uploadPhoto);
+router.get("/", authMiddleware, roleMiddleware(["ADMIN"]), listPhotos);
+router.delete("/:id", authMiddleware, roleMiddleware(["ADMIN"]), deletePhoto);
 router.get("/:id/download", downloadPhoto);
 
 export default router;
