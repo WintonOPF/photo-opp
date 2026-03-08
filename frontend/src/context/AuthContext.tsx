@@ -1,44 +1,55 @@
-import { createContext, useEffect, useMemo, useState } from 'react';
-import { loginRequest } from '../services/authService';
-import type { AuthUser } from '../types/auth';
+import {
+  createContext,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+import { loginRequest } from "../services/authService";
+import type { AuthUser } from "../types/auth";
 
 export interface AuthContextType {
   user: AuthUser | null;
   isAuthenticated: boolean;
   isAuthLoading: boolean;
-  login: (username: string, password: string) => Promise<AuthUser>;
+  login: (
+    username: string,
+    password: string,
+    remember: boolean
+  ) => Promise<AuthUser>;
   logout: () => void;
 }
 
 export const AuthContext = createContext<AuthContextType | null>(null);
-
-const STORAGE_KEY = 'photo_opp_user';
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null);
   const [isAuthLoading, setIsAuthLoading] = useState(true);
 
   useEffect(() => {
-    const storedUser = localStorage.getItem(STORAGE_KEY);
-
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-    }
-
     setIsAuthLoading(false);
   }, []);
 
-  async function login(username: string, password: string): Promise<AuthUser> {
-    const authUser = await loginRequest({ username, password });
-    setUser(authUser);
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(authUser));
-    return authUser;
-  }
+  const login = useCallback(
+    async (
+      username: string,
+      password: string,
+      _remember: boolean
+    ): Promise<AuthUser> => {
+      const authUser = await loginRequest({ username, password });
+      setUser(authUser);
+      return authUser;
+    },
+    []
+  );
 
-  function logout() {
+  const logout = useCallback(() => {
     setUser(null);
-    localStorage.removeItem(STORAGE_KEY);
-  }
+
+    if (window.location.pathname !== "/login") {
+      window.location.assign("/login");
+    }
+  }, []);
 
   const value = useMemo(
     () => ({
@@ -46,9 +57,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       isAuthenticated: !!user,
       isAuthLoading,
       login,
-      logout
+      logout,
     }),
-    [user, isAuthLoading]
+    [user, isAuthLoading, login, logout]
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;

@@ -9,10 +9,36 @@ body {
 }
 
 .login-error-message {
-  margin: 0;
-  color: #b91c1c;
-  font-size: 14px;
-  text-align: center;
+  margin: 6px 0 0;
+  padding: 10px 12px;
+  color: #991b1b;
+  background: rgba(254, 226, 226, 0.9);
+  border-left: 4px solid #dc2626;
+  border-radius: 6px;
+  font-size: clamp(12px, 1.35vh, 15px);
+  font-weight: 600;
+  line-height: 1.35;
+  text-align: left;
+  animation: login-error-fade 1s ease-in-out both;
+}
+
+@keyframes login-error-fade {
+  0% {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+  15% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  75% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  100% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
 }
 
 .login-page {

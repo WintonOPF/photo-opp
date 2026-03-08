@@ -1,4 +1,4 @@
-import { useState, type SyntheticEvent } from "react";
+import { useEffect, useState, type SyntheticEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
 import { NexLogo } from "../../components/NexLogo";
@@ -7,20 +7,49 @@ import emailIcon from "../../assets/email-icon.svg";
 import lockIcon from "../../assets/lock-icon.svg";
 import "./login.css";
 
+const LAST_LOGIN_KEY = "last_login_username";
+
 export function LoginPage() {
   const navigate = useNavigate();
   const { login } = useAuth();
 
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    const savedUsername = localStorage.getItem(LAST_LOGIN_KEY);
+    if (savedUsername) {
+      setUsername(savedUsername);
+      setRemember(true);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (!errorMessage) {
+      return;
+    }
+
+    const timer = setTimeout(() => {
+      setErrorMessage("");
+    }, 1000);
+
+    return () => clearTimeout(timer);
+  }, [errorMessage]);
 
   async function handleSubmit(event: SyntheticEvent<HTMLFormElement>) {
     event.preventDefault();
     setErrorMessage("");
 
     try {
-      const user = await login(username, password);
+      const user = await login(username, password, remember);
+
+      if (remember) {
+        localStorage.setItem(LAST_LOGIN_KEY, username);
+      } else {
+        localStorage.removeItem(LAST_LOGIN_KEY);
+      }
 
       if (user.role === "ADMIN") {
         navigate("/admin");
@@ -67,17 +96,21 @@ export function LoginPage() {
             </span>
           </div>
 
-          {errorMessage && <p className="login-error-message">{errorMessage}</p>}
-
           <div className="login-options">
             <label className="remember-me">
-              <input type="checkbox" />
+              <input
+                type="checkbox"
+                checked={remember}
+                onChange={(event) => setRemember(event.target.checked)}
+              />
               Lembrar
             </label>
             <button type="button" className="forgot-password">
               Esqueci minha senha
             </button>
           </div>
+
+          {errorMessage && <p className="login-error-message">{errorMessage}</p>}
 
           <Button type="submit" className="login-button">
             Entrar
