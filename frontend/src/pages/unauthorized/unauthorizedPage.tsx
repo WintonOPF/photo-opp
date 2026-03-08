@@ -1,3 +1,11 @@
+import "./unauthorized.css";
+
 export function UnauthorizedPage() {
-  return <h1>Acesso não autorizado</h1>;
+  return (
+    <div className="unauthorized-container">
+      <div className="unauthorized-frame">
+        <h1>Acesso nao autorizado</h1>
+      </div>
+    </div>
+  );
 }
