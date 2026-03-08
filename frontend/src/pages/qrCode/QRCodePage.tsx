@@ -6,6 +6,8 @@ import "./qrcode.css";
 import { usePhotoFlow } from "../../hooks/usePhotoFlow";
 import { composePhotoWithFrame } from "../../utils/composePhotoWithFrame";
 import { uploadPhoto } from "../../services/photoService";
+import { NexLogo } from "../../components/NexLogo";
+import { Button } from "../../components/button/button";
 
 const FRAME_PHOTO_SLOT = {
   x: 0,
@@ -166,9 +168,9 @@ export function QRCodePage() {
             </div>
 
             <div className="qr-actions">
-              <button onClick={handleFinish} disabled={isLoading}>
+              <Button onClick={handleFinish} disabled={isLoading}>
                 Finalizar
-              </button>
+              </Button>
             </div>
           </>
         )}
@@ -197,7 +199,7 @@ export function QRCodePage() {
             </div>
 
             <div className="qr-actions">
-              <button disabled>Finalizar</button>
+              <Button disabled>Finalizar</Button>
             </div>
 
             <div className="qr-overlay">
@@ -211,7 +213,7 @@ export function QRCodePage() {
 
         {step === "final-large-qr" && (
           <div className="qr-final-content">
-            <div className="qr-final-logo">NEX.lab</div>
+            <NexLogo className="qr-final-logo" />
 
             <h2>Obrigado!</h2>
             <p>Escaneie para baixar sua foto</p>
@@ -224,7 +226,7 @@ export function QRCodePage() {
               )}
             </div>
 
-            <button onClick={handleFinish}>Finalizar</button>
+            <Button onClick={handleFinish}>Finalizar</Button>
           </div>
         )}
       </div>

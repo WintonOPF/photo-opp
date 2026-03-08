@@ -4,6 +4,7 @@ import frameSrc from "../../assets/frame.svg";
 import "./review.css";
 import { usePhotoFlow } from "../../hooks/usePhotoFlow";
 import { composePhotoWithFrame } from "../../utils/composePhotoWithFrame";
+import { Button } from "../../components/button/button";
 
 const FRAME_PHOTO_SLOT = {
   x: 0,
@@ -97,13 +98,13 @@ export function ReviewPage() {
             Refazer
           </button>
 
-          <button
+          <Button
             className="btn-continue"
             onClick={handleContinue}
             disabled={isComposing}
           >
             Continuar
-          </button>
+          </Button>
         </div>
       </div>
     </div>

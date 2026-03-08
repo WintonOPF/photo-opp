@@ -20,7 +20,10 @@
 }
 
 .logo {
-  font-weight: bold;
+  width: min(40%, 256px);
+  height: auto;
+  display: block;
+  margin-inline: auto;
   margin-bottom: 20px;
 }
 

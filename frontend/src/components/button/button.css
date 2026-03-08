@@ -1,0 +1,17 @@
+.app-button {
+  border: none;
+  background: #6f6f6f;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+  transition: filter 0.2s ease;
+}
+
+.app-button:hover:not(:disabled) {
+  filter: brightness(0.95);
+}
+
+.app-button:disabled {
+  opacity: 0.78;
+  cursor: default;
+}

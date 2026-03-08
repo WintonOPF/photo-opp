@@ -1,6 +1,8 @@
 import { useState, type SyntheticEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../../hooks/useAuth";
+import { NexLogo } from "../../components/NexLogo";
+import { Button } from "../../components/button/button";
 import "./login.css";
 
 export function LoginPage() {
@@ -33,8 +35,7 @@ export function LoginPage() {
     <div className="login-page">
       <div className="login-card">
         <div className="login-logo-wrapper">
-          <div className="login-logo-box">NEX</div>
-          <span className="login-logo-text">.lab</span>
+          <NexLogo className="login-logo" />
         </div>
 
         <h1 className="login-title">Login</h1>
@@ -66,9 +67,9 @@ export function LoginPage() {
 
           <div className="login-options"></div>
 
-          <button type="submit" className="login-button">
+          <Button type="submit" className="login-button">
             Entrar
-          </button>
+          </Button>
         </form>
       </div>
     </div>

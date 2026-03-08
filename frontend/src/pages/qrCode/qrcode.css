@@ -25,6 +25,12 @@
   font-weight: 700;
 }
 
+.qr-final-logo {
+  width: min(38%, 256px);
+  height: auto;
+  display: block;
+}
+
 .qr-review-photo-area {
   position: relative;
   height: 88%;

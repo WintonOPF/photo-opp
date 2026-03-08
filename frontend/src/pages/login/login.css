@@ -50,24 +50,10 @@ body {
   margin-bottom: 11%;
 }
 
-.login-logo-box {
-  width: 6.2vh;
-  height: 6.2vh;
-  border: 1px solid #bcbcbc;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-weight: 700;
-  font-size: clamp(20px, 2.8vh, 34px);
-  color: #4b4b4b;
-  background: transparent;
-}
-
-.login-logo-text {
-  color: #6f6f6f;
-  font-size: clamp(24px, 3vh, 38px);
-  margin-left: 4px;
-  margin-top: 8px;
+.login-logo {
+  width: min(36%, 256px);
+  height: auto;
+  display: block;
 }
 
 .login-title {
