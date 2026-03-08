@@ -4,8 +4,8 @@ Aplicacao full stack para captura e distribuicao de fotos via QR Code, com auten
 
 ## Link do projeto publicado
 
-Frontend: https://seu-projeto.web.app  
-Backend API: https://seu-backend.onrender.com
+Frontend: https://photo-opp-3032c.web.app  
+Backend API: https://photo-opp.onrender.com
 
 ## Estrutura atual
 
